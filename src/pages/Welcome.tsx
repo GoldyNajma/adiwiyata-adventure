@@ -15,7 +15,7 @@ const Welcome: React.FC = () => {
             Adiwiyata Adventure
           </h1>
           <p className="mt-2 text-green-100">
-            Pelajari tentang pelestarian lingkungan dan jadilah juara Adiwiyata!
+            Pelajari tentang pelestarian lingkungan dan jadilah petualang Adiwiyata!
           </p>
         </div>
         <div className="p-6 md:p-8">
@@ -41,7 +41,7 @@ const Welcome: React.FC = () => {
                   7 Tahap Pembelajaran
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Jelajahi 7 tahap interaktif tentang Adiwiyata!
+                  Jelajahi 7 tahap tentang Adiwiyata dan ke enam aspeknya!
                 </p>
               </div>
             </div>
@@ -71,13 +71,13 @@ const Welcome: React.FC = () => {
             </div>
           </div>
           <Link to="/register" className="block w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg text-center transition-colors duration-300">
-            Mulai Penjelajahanmu!
+            Mulai Petualanganmu!
           </Link>
         </div>
       </div>
-      {/* <p className="mt-6 text-sm text-green-800">
-        Created for middle school environmental education
-      </p> */}
+      <p className="mt-6 text-sm text-green-800">
+        Adiwiyata Adventure - SMP Negeri 1 Gedangan
+      </p>
     </div>;
 };
 export default Welcome;

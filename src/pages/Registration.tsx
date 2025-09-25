@@ -31,7 +31,7 @@ const Registration: React.FC = () => {
               <LeafIcon className="w-10 h-10 text-green-600" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold">Bergabunglah dalam Penjelajahan!</h1>
+          <h1 className="text-2xl font-bold">Bergabunglah dalam Petualangan!</h1>
           <p className="mt-1 text-green-100">
             Daftar untuk mulai menjelajahi Adiwiyata
           </p>
@@ -54,7 +54,7 @@ const Registration: React.FC = () => {
               <input type="text" id="class" value={className} onChange={e => setClassName(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" placeholder="Contoh: 7A, 8B, 9C" />
             </div>
             <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg text-center transition-colors duration-300">
-              Mulai Penjelajahan!
+              Mulai Petualangan!
             </button>
           </form>
         </div>

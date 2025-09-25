@@ -17,7 +17,7 @@ export interface Stage {
 export const stages: Stage[] = [{
     id: 0,
     title: "Pembahasan Adiwiyata",
-    icon: <BookIcon className="w-6 h-6" />,
+    icon: <BookIcon className="w-6 h-6 text-green-600" />,
     content: (
       <div>
         <h2 className="text-xl md:text-2xl font-bold mb-4" >

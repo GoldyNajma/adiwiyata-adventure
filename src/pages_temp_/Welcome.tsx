@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Leaf, Trophy, Star, Zap, Users, BookOpen, Target, ArrowRight } from 'lucide-react';
+import { Leaf, Trophy, Star, Zap, ArrowRight } from 'lucide-react';
 
 const Welcome = () => {
   return (
@@ -35,8 +35,8 @@ const Welcome = () => {
             <Trophy className="absolute bottom-8 left-16 w-7 h-7 text-yellow-100 opacity-30 animate-pulse delay-500" />
           </div>
           
-          <div className="relative z-10">
-            <div className="flex justify-center mb-6">
+          <div className="mt-8 relative z-10">
+            <div className="flex justify-center mb-6 ">
               <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 animate-bounce">
                 <Leaf className="w-16 h-16 text-white" />
               </div>
@@ -46,49 +46,13 @@ const Welcome = () => {
               Adiwiyata Adventure
             </h1>
             <p className="text-xl md:text-2xl text-green-100 max-w-3xl mx-auto mb-6 animate-fade-in-delayed">
-              Bergabunglah dalam petualangan seru menyelamatkan bumi! Jadilah eco-hero dan pelajari cara menjaga lingkungan dengan cara yang menyenangkan.
+              Bergabunglah dalam petualangan seru wujudkan sekolah yang hijau! Jadilah pahlawan Adiwiyata dan pelajari cara menjaga lingkungan untuk bumi yang lebih baik.
             </p>
-            
-            {/* Fun stats with icons */}
-            <div className="flex justify-center space-x-8 md:space-x-12 mt-8">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold mb-1">7</div>
-                <div className="text-sm md:text-base text-green-200 flex items-center">
-                  <Target className="w-4 h-4 mr-1" />
-                  Misi Seru
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold mb-1">∞</div>
-                <div className="text-sm md:text-base text-blue-200 flex items-center">
-                  <BookOpen className="w-4 h-4 mr-1" />
-                  Pengetahuan
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold mb-1">🏆</div>
-                <div className="text-sm md:text-base text-purple-200 flex items-center">
-                  <Users className="w-4 h-4 mr-1" />
-                  Kompetisi
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* What is Adiwiyata Section */}
         <div className="p-8 md:p-12 bg-gradient-to-br from-green-50 to-blue-50">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                Apa itu Adiwiyata?
-              </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Adiwiyata adalah program lingkungan untuk sekolah yang peduli bumi. 
-                Yuk belajar jadi agen perubahan untuk masa depan yang lebih hijau!
-              </p>
-            </div>
-
             {/* Feature Cards Grid */}
             <div className="grid md:grid-cols-3 gap-6 mb-12">
               {/* Feature 1: 7 Tahap Learning */}
@@ -130,10 +94,10 @@ const Welcome = () => {
         {/* Call to Action Section */}
         <div className="p-8 md:p-12 text-center bg-white">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-            Siap Menjadi Eco-Hero?
+            Siap Menjadi Pahlawan Adiwiyata?
           </h2>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Bergabunglah dengan ribuan siswa lain yang sudah memulai perjalanan mereka menuju masa depan yang lebih hijau!
+            Bergabunglah dengan penjelajah lain yang sudah memulai perjalanan mereka mewujudkan sekolah yang lebih hijau!
           </p>
           
           <div className="max-w-md mx-auto">
@@ -147,31 +111,16 @@ const Welcome = () => {
               <span>Mulai Petualangan Sekarang!</span>
               <ArrowRight className="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
-            
-            <div className="mt-6 flex items-center justify-center space-x-6 text-sm text-gray-500">
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                <span>Gratis</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                <span>Tanpa Login</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                <span>Langsung Main</span>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* Footer */}
         <div className="bg-gray-50 p-6 text-center border-t">
           <p className="text-sm text-gray-600">
-            Dibuat khusus untuk pembelajaran lingkungan siswa SMP
+            Adiwiyata Adventure
           </p>
           <p className="text-xs text-gray-500 mt-1">
-            Program Adiwiyata - Pendidikan Lingkungan Hidup
+            SMP Negeri 1 Gedangan
           </p>
         </div>
       </div>
