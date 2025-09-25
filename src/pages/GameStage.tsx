@@ -15,7 +15,8 @@ const GameStage: React.FC = () => {
   const {
     user,
     updateScore,
-    advanceStage
+    advanceStage,
+    isSaving // NEW: get isSaving state
   } = useUser();
   const navigate = useNavigate();
   const [quizCompleted, setQuizCompleted] = useState(false);
@@ -61,9 +62,10 @@ const GameStage: React.FC = () => {
     }
   };
 
-  const handleNextStage = () => {
+  const handleNextStage = async () => {
     if (currentStageId < stages.length - 1) {
-      advanceStage();
+      // await the advanceStage function to ensure Firestore save is complete before navigating
+      await advanceStage();
       navigate(`/stage/${currentStageId + 1}`);
     } else {
       navigate('/leaderboard');
@@ -157,9 +159,19 @@ const GameStage: React.FC = () => {
             Stage {currentStageId + 1} dari {stages.length}
           </span>
           {quizCompleted ? (
-            <button onClick={handleNextStage} className="flex items-center text-green-700 hover:text-green-900">
-              {currentStageId < stages.length - 1 ? 'Next Stage' : 'Lihat Leaderboard'}
-              <ChevronRightIcon className="w-5 h-5 ml-1" />
+            <button 
+              onClick={handleNextStage} 
+              className="flex items-center text-green-700 hover:text-green-900 disabled:text-gray-400 disabled:cursor-not-allowed"
+              disabled={isSaving}
+            >
+              {isSaving ? (
+                <>Menyimpan...</>
+              ) : (
+                <>
+                  {currentStageId < stages.length - 1 ? 'Lanjut ke Stage Berikutnya' : 'Lihat Leaderboard'}
+                  <ChevronRightIcon className="w-5 h-5 ml-1" />
+                </>
+              )}
             </button>
           ) : (
             <div className="w-24"></div>
@@ -201,8 +213,9 @@ const GameStage: React.FC = () => {
                       <button 
                           onClick={handleNextStage} 
                           className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 mt-6"
+                          disabled={isSaving}
                       >
-                          {currentStageId < stages.length - 1 ? 'Lanjut ke Stage Berikutnya' : 'Lihat Leaderboard'}
+                          {isSaving ? 'Menyimpan...' : (currentStageId < stages.length - 1 ? 'Lanjut ke Stage Berikutnya' : 'Lihat Leaderboard')}
                       </button>
                   </div>
               ) : (
