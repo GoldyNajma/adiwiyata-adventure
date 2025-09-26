@@ -15,9 +15,11 @@ export function App() {
             <Route path="/stage/:stageId" element={<ProtectedRoute>
                   <GameStage />
                 </ProtectedRoute>} />
-            <Route path="/leaderboard" element={<ProtectedRoute>
+            <Route path="/leaderboard" element={
+                // <ProtectedRoute>
                   <Leaderboard />
-                </ProtectedRoute>} />
+                // </ProtectedRoute>
+              } />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

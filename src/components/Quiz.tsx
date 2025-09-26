@@ -1,93 +1,163 @@
 import React, { useState } from 'react';
 import { Question } from '../data/gameData';
+import { CheckCircle, XCircle } from 'lucide-react';
+
+// Define the structure for the detailed results
+export interface QuizResultDetail {
+  question: string;
+  userAnswer: string;
+  correctAnswer: string;
+  isCorrect: boolean;
+}
+
+// The onComplete handler signature remains the same, but its logic changes
 interface QuizProps {
   questions: Question[];
-  onComplete: (score: number) => void;
+  onComplete: (score: number, results: QuizResultDetail[]) => void;
 }
-const Quiz: React.FC<QuizProps> = ({
-  questions,
-  onComplete
-}) => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [quizCompleted, setQuizCompleted] = useState(false);
-  const currentQuestion = questions[currentQuestionIndex];
-  const handleOptionSelect = (optionIndex: number) => {
-    if (showFeedback) return; // Prevent changing answer after submission
-    setSelectedOption(optionIndex);
+
+const Quiz: React.FC<QuizProps> = ({ questions, onComplete }) => {
+  // State to track the user's selected option for each question (Question Index -> Option Index)
+  const [userAnswers, setUserAnswers] = useState<Record<number, number | null>>({});
+  const [submitted, setSubmitted] = useState(false);
+  
+  // Update the selected option for a specific question
+  const handleOptionSelect = (questionIndex: number, optionIndex: number) => {
+    // Disable selection after submission
+    if (submitted) return; 
+
+    setUserAnswers(prev => ({
+      ...prev,
+      [questionIndex]: optionIndex,
+    }));
   };
-  const handleSubmitAnswer = () => {
-    if (selectedOption === null) return;
-    const isAnswerCorrect = selectedOption === currentQuestion.correctAnswer;
-    setIsCorrect(isAnswerCorrect);
-    setShowFeedback(true);
-    if (isAnswerCorrect) {
-      setCorrectAnswers(correctAnswers + 1);
-    }
-    // Wait 1.5 seconds before moving to next question
-    setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setSelectedOption(null);
-        setShowFeedback(false);
-      } else {
-        // Quiz completed
-        setQuizCompleted(true);
-        // Calculate score based on correct answers (10 points per correct answer)
-        const score = correctAnswers * 10;
-        onComplete(score);
+
+  const handleSubmitQuiz = () => {
+    setSubmitted(true);
+
+    let correctCount = 0;
+    const results: QuizResultDetail[] = [];
+
+    questions.forEach((question, index) => {
+      const selectedOptionIndex = userAnswers[index];
+      const isCorrect = selectedOptionIndex === question.correctAnswer;
+
+      if (isCorrect) {
+        correctCount++;
       }
-    }, 1500);
+
+      // Record the detailed result
+      results.push({
+        question: question.text,
+        userAnswer: selectedOptionIndex !== null 
+          ? question.options[selectedOptionIndex] 
+          : 'Tidak dijawab',
+        correctAnswer: question.options[question.correctAnswer],
+        isCorrect: isCorrect,
+      });
+    });
+
+    // Calculate score (10 points per correct answer)
+    const score = correctCount * 10;
+    
+    // Pass the final score and all detailed results to the parent
+    onComplete(score, results);
   };
-  const calculateScore = () => {
-    return Math.round(correctAnswers / questions.length * 100);
-  };
-  if (quizCompleted) {
-    return <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-        <h3 className="font-semibold text-green-800 text-xl mb-3">
-          Kuis Selesai!
-        </h3>
-        <p className="text-gray-700 mb-4">
-          Kamu mendapatkan {correctAnswers} dari {questions.length} pertanyaan terjawab benar.
-        </p>
-        <div className="mb-6">
-          <div className="w-full bg-gray-200 rounded-full h-4">
-            <div className="bg-green-600 h-4 rounded-full" style={{
-            width: `${calculateScore()}%`
-          }}></div>
-          </div>
-          <p className="mt-2 font-medium">Your Score: {calculateScore()}%</p>
-        </div>
-      </div>;
-  }
-  return <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-      <div className="flex justify-between text-sm text-gray-500 mb-4">
-        <span>
-          Pertanyaan {currentQuestionIndex + 1} dari {questions.length}
-        </span>
-        <span>Jawaban Benar: {correctAnswers}</span>
-      </div>
-      <h3 className="text-lg font-medium text-gray-800 mb-4">
-        {currentQuestion.text}
-      </h3>
-      <div className="space-y-3 mb-6">
-        {currentQuestion.options.map((option, index) => <button key={index} onClick={() => handleOptionSelect(index)} className={`w-full text-left p-3 rounded-lg border transition-colors ${selectedOption === index ? showFeedback ? isCorrect ? 'bg-green-100 border-green-500' : index === currentQuestion.correctAnswer ? 'bg-green-100 border-green-500' : 'bg-red-100 border-red-500' : 'bg-blue-50 border-blue-500' : 'border-gray-200 hover:bg-gray-50'}`} disabled={showFeedback}>
-            <div className="flex items-center">
-              <div className={`w-6 h-6 flex items-center justify-center rounded-full mr-3 ${selectedOption === index ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}>
-                {String.fromCharCode(65 + index)}
+
+  const allAnswered = questions.every((_, index) => userAnswers[index] !== null);
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmitQuiz(); }} className="space-y-8">
+        
+        {questions.map((question, qIndex) => {
+          const selectedOption = userAnswers[qIndex];
+          const isCorrect = submitted ? selectedOption === question.correctAnswer : null;
+          
+          return (
+            <div key={qIndex}>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                {qIndex + 1}. {question.text}
+              </h3>
+              
+              <div className="space-y-2">
+                {question.options.map((option, oIndex) => {
+                  
+                  // Determine the button's style based on state
+                  let className = 'w-full text-left p-3 rounded-lg border transition-colors';
+
+                  if (submitted) {
+                    if (oIndex === question.correctAnswer) {
+                      // Always highlight the correct answer
+                      className += ' bg-green-100 border-green-500 font-medium text-green-800';
+                    } else if (selectedOption === oIndex) {
+                      // Highlight the user's incorrect choice
+                      className += ' bg-red-100 border-red-500 font-medium text-red-800';
+                    } else {
+                      className += ' border-gray-200';
+                    }
+                  } else {
+                    // Pre-submission styles
+                    if (selectedOption === oIndex) {
+                      className += ' bg-blue-50 border-blue-500';
+                    } else {
+                      className += ' border-gray-200 hover:bg-gray-50';
+                    }
+                  }
+
+                  return (
+                    <button
+                      key={oIndex}
+                      type="button"
+                      onClick={() => handleOptionSelect(qIndex, oIndex)}
+                      className={className}
+                      disabled={submitted}
+                    >
+                      <div className="flex items-center">
+                        <div className={`w-6 h-6 flex items-center justify-center rounded-full mr-3 ${selectedOption === oIndex && !submitted ? 'bg-blue-500 text-white' : 'bg-gray-100'}`}>
+                          {String.fromCharCode(65 + oIndex)}
+                        </div>
+                        <span>{option}</span>
+                      </div>
+                      
+                      {/* Show Check/X icon after submission */}
+                      {submitted && selectedOption === oIndex && (
+                        isCorrect ? <CheckCircle className="w-5 h-5 text-green-600 ml-auto" />
+                                  : <XCircle className="w-5 h-5 text-red-600 ml-auto" />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
-              <span>{option}</span>
+              
+              {/* Show immediate feedback after submission */}
+              {submitted && (
+                <div className={`mt-3 p-2 rounded-md font-medium text-sm ${isCorrect ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+                  {isCorrect ? 'BENAR' : `SALAH. Jawaban benar: ${question.options[question.correctAnswer]}`}
+                </div>
+              )}
             </div>
-          </button>)}
-      </div>
-      {showFeedback ? <div className={`p-3 rounded-md mb-4 ${isCorrect ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
-          {isCorrect ? 'Jawaban benar!' : `Salah. Jawaban yang benar adalah: ${currentQuestion.options[currentQuestion.correctAnswer]}`}
-        </div> : <button onClick={handleSubmitAnswer} disabled={selectedOption === null} className={`w-full py-3 rounded-lg font-medium ${selectedOption !== null ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}>
-          Submit Jawaban
-        </button>}
-    </div>;
+          );
+        })}
+
+        {/* Submit Button (Only visible before submission) */}
+        {!submitted && (
+          <button 
+            type="submit" 
+            disabled={!allAnswered} 
+            className={`w-full py-3 rounded-lg font-medium transition-colors ${
+              allAnswered 
+                ? 'bg-green-600 text-white hover:bg-green-700' 
+                : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            Submit Jawaban
+            {/* Submit Kuis ({questions.length} Pertanyaan) */}
+          </button>
+        )}
+      </form>
+    </div>
+  );
 };
+
 export default Quiz;
