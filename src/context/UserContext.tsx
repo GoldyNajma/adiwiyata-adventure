@@ -4,14 +4,14 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { v4 as uuid4 } from 'uuid';
 
 interface User {
-  id: string; // This will now be a locally generated unique ID
+  id: string; 
   name: string;
   className: string;
   currentStage: number;
   scores: number[];
   totalScore: number;
   isRegistered: boolean;
-  isCompleted: boolean; // NEW: Track if all stages are completed
+  isCompleted: boolean; 
 }
 
 interface UserContextType {
@@ -21,7 +21,7 @@ interface UserContextType {
   advanceStage: () => Promise<void>;
   resetProgress: () => void;
   isSaving: boolean;
-  isAllStagesCompleted: boolean; // NEW: Expose completion status
+  isAllStagesCompleted: boolean; 
 }
 
 const TOTAL_STAGES = 7; // Define total number of stages (0-6)
@@ -31,7 +31,7 @@ const initialUser: User = {
   name: '',
   className: '',
   currentStage: 0,
-  scores: [0, 0, 0, 0, 0, 0, 0], // Assuming 7 stages
+  scores: [0, 0, 0, 0, 0, 0, 0], // 7 stages
   totalScore: 0,
   isRegistered: false,
   isCompleted: false
@@ -96,7 +96,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
             id: userId
           });
         } else {
-          // Just set the user with ID, don't save to Firestore yet
           const newUser = { ...initialUser, id: userId };
           setUser(newUser);
         }
@@ -118,7 +117,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
     }
     const newUser: User = { ...user, name, className, isRegistered: true };
     setUser(newUser);
-    // Don't save to Firestore here - only save locally
     console.log('User registered locally. Will save to Firestore upon completion.');
   };
   
@@ -132,7 +130,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
         scores: newScores,
         totalScore
       };
-      // Don't save to Firestore here - only update locally
       return updatedUser;
     });
   };
@@ -157,7 +154,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
     setUser(updatedUser);
     
     // Only save to Firestore if all stages are now completed
-    // This happens when newStage becomes 7 (meaning completed stage 6)
     if (isNowCompleted) {
       console.log('All stages completed! Saving to Firestore...');
       await saveUserToFirestore(updatedUser);
@@ -171,7 +167,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
     const resetUser = { ...initialUser }; // Keep the same ID
     setUser(resetUser);
     localStorage.removeItem('adiwiyataUserId');
-    // Don't save to Firestore when resetting - user starts fresh
     console.log('Progress reset. Starting fresh locally.');
   };
 

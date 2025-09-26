@@ -17,11 +17,10 @@ const GameStage: React.FC = () => {
     updateScore,
     advanceStage,
     resetProgress,
-    isSaving // NEW: get isSaving state
+    isSaving 
   } = useUser();
   const navigate = useNavigate();
   const [quizCompleted, setQuizCompleted] = useState(false);
-  // NEW STATE: To store the detailed results
   const [quizResults, setQuizResults] = useState<QuizResultDetail[] | null>(null);
 
   // Get the current stage data
@@ -34,19 +33,12 @@ const GameStage: React.FC = () => {
     // Check if the user already has a score for this stage
     if (currentStageScore > 0) {
       setQuizCompleted(true);
-      // NOTE: If you want to show past results, you would need to store 
-      // the detailed results in the user context/storage as well.
-      // For simplicity here, we only show results for the quiz just completed.
-      // We keep the old results if they exist, or set to null if re-visiting.
-      // For this implementation, we will only show results right after completion.
-      // If re-visiting, the result section will show the score, but not the detailed breakdown.
     } else {
       setQuizCompleted(false);
       setQuizResults(null); // Clear results if quiz hasn't been done
     }
   }, [currentStageId, currentStageScore]);
 
-  // MODIFIED HANDLER: Now accepts detailed results
   const handleQuizComplete = (score: number, results: QuizResultDetail[]) => {
     setQuizCompleted(true);
     setQuizResults(results); // Store the detailed results
