@@ -151,7 +151,8 @@ const Quiz: React.FC<QuizProps> = ({ questions, onComplete }) => {
                 : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             }`}
           >
-            Submit Kuis ({questions.length} Pertanyaan)
+            Submit Jawaban
+            {/* Submit Kuis ({questions.length} Pertanyaan) */}
           </button>
         )}
       </form>

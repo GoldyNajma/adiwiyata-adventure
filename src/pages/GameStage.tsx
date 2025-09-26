@@ -15,7 +15,9 @@ const GameStage: React.FC = () => {
   const {
     user,
     updateScore,
-    advanceStage
+    advanceStage,
+    resetProgress,
+    isSaving // NEW: get isSaving state
   } = useUser();
   const navigate = useNavigate();
   const [quizCompleted, setQuizCompleted] = useState(false);
@@ -61,9 +63,10 @@ const GameStage: React.FC = () => {
     }
   };
 
-  const handleNextStage = () => {
+  const handleNextStage = async () => {
+    await advanceStage();
+    
     if (currentStageId < stages.length - 1) {
-      advanceStage();
       navigate(`/stage/${currentStageId + 1}`);
     } else {
       navigate('/leaderboard');
@@ -78,7 +81,6 @@ const GameStage: React.FC = () => {
   //   }
   // };
 
-  // NEW FUNCTION: Render the detailed results
   const renderQuizResults = () => {
     if (!quizResults) return null;
 
@@ -100,6 +102,10 @@ const GameStage: React.FC = () => {
                 <span className="font-semibold text-gray-800">
                   Pertanyaan {index + 1}: {result.isCorrect ? 'BENAR' : 'SALAH'}
                 </span>
+                {result.isCorrect 
+                  ? <span className="font-semibold text-green-800 ml-1">(+10)</span>
+                  : <span className="font-semibold text-red-800 ml-1">(0)</span>
+                }
               </div>
               <p className="text-sm font-medium text-gray-700">
                 <b>Pertanyaan:</b> {result.question}
@@ -129,7 +135,10 @@ const GameStage: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         {/* User Info and Total Score */}
         <div className="flex justify-between items-center mb-6">
-          <button onClick={() => navigate('/')} className="flex items-center text-green-700 hover:text-green-900">
+          <button onClick={() => {
+            resetProgress();
+            navigate('/');
+          }} className="flex items-center text-green-700 hover:text-green-900">
             <HomeIcon className="w-5 h-5 mr-1" />
             <span>Halaman Awal</span>
           </button>
@@ -157,9 +166,19 @@ const GameStage: React.FC = () => {
             Stage {currentStageId + 1} dari {stages.length}
           </span>
           {quizCompleted ? (
-            <button onClick={handleNextStage} className="flex items-center text-green-700 hover:text-green-900">
-              {currentStageId < stages.length - 1 ? 'Next Stage' : 'Lihat Leaderboard'}
-              <ChevronRightIcon className="w-5 h-5 ml-1" />
+            <button 
+              onClick={handleNextStage} 
+              className="flex items-center text-green-700 hover:text-green-900 disabled:text-gray-400 disabled:cursor-not-allowed"
+              disabled={isSaving}
+            >
+              {isSaving ? (
+                <>Menyimpan...</>
+              ) : (
+                <>
+                  {currentStageId < stages.length - 1 ? 'Lanjut ke Stage Berikutnya' : 'Lihat Leaderboard'}
+                  <ChevronRightIcon className="w-5 h-5 ml-1" />
+                </>
+              )}
             </button>
           ) : (
             <div className="w-24"></div>
@@ -185,14 +204,18 @@ const GameStage: React.FC = () => {
 
             {/* Quiz section */}
             <div className="mt-8 pt-8 border-t border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
                 Kuis: {stage.title}
               </h2>
+              <p className="mb-4">Petunjuk: kerjakan soal ini sesuai yang sudah kalian baca !!</p>
 
               {quizCompleted ? (
                   <div className="mt-6 text-center">
-                      <div className="text-2xl font-bold text-green-700 mb-4">
+                      <div className="text-2xl text-green-700">
                           Skormu untuk Stage ini: {currentStageScore}
+                      </div>
+                      <div className="text-2xl font-bold text-green-700 mb-4">
+                          Skor total sementara: {user.totalScore}
                       </div>
                       
                       {/* Render the detailed results */}
@@ -201,8 +224,9 @@ const GameStage: React.FC = () => {
                       <button 
                           onClick={handleNextStage} 
                           className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 mt-6"
+                          disabled={isSaving}
                       >
-                          {currentStageId < stages.length - 1 ? 'Lanjut ke Stage Berikutnya' : 'Lihat Leaderboard'}
+                          {isSaving ? 'Menyimpan...' : (currentStageId < stages.length - 1 ? 'Lanjut ke Stage Berikutnya' : 'Lihat Leaderboard')}
                       </button>
                   </div>
               ) : (
