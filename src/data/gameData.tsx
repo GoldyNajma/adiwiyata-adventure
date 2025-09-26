@@ -75,12 +75,12 @@ export const stages: Stage[] = [{
     icon: <LeafIcon className="w-6 h-6 text-green-600" />,
     content: (
       <div>
-        <p className="mb-4 text-lg">
+        <h2 className="text-xl md:text-2xl font-bold mb-4" >
           Nah disini kalian pernah mendengar/tidak mengenai aspek yang ada dalam adiwiyata.
           Jadi didalam adiwiyata terdapat 6 aspek.
-        </p>
+        </h2>
         <p className="mb-4 text-lg">
-          Aspek yang pertama kebersihan dan fungsi sanitasi. Sanitasi merupakan upaya menjaga
+          Aspek yang pertama <b>kebersihan dan fungsi sanitasi</b>. Sanitasi merupakan upaya menjaga
           kebersihan lingkungan dan kesehatan masyarakat melalui pengawasan terhadap faktor
           lingkungan. Fungi sanitasi sendiri mencegah penyakit dan meningkatkan kesehatan
           masyarakat dengan cara mengelola lingkungan hidup secara bersih dan sehat melalui
@@ -131,29 +131,36 @@ export const stages: Stage[] = [{
     icon: <RecycleIcon className="w-6 h-6  text-green-600" />,
     content: (
       <div>
-        <p className="mb-4 text-lg">
-          Kamu tau nggak kenapa tong sampah ada 3 jenisnya?, ternyata itu karena jenis sampah
+        <h2 className="text-xl md:text-2xl font-bold mb-4" >
+          Kamu tau nggak kenapa tong sampah ada 3 jenisnya?
+        </h2>
+        <p className="text-lg">
+          Ternyata itu karena jenis sampah
           berbeda beda dan harus dikelompokkan masing masing. Disekolah kita ada 3 jenis tong
           sampah yaitu:
         </p>
-        <p className="mb-4 text-lg">
-          1. Tong sampah hijau: Fungsinya adalah menampung sampah organik, seperti sisa plastik,
-          daun dan ranting.
-        </p>
-        <p className="mb-4 text-lg">
-          2. Tong sampah kuning: Fungsinya adalah menampung sampah anorganik, seperti sisa plastik,
-          styrofom dan kaleng.
-        </p>
-        <p className="mb-4 text-lg">
-          3. Tong sampah merah: Fungsinya adalah menampung limbah  B3(berbahayadanberacun)
-          Contoh:baterai,komponen elektronik,dan limba medis.
-        </p>
-        <p className="mb-4 text-lg">
+        <ol className="mt-4 list-decimal ml-8 text-lg">
+          <li>
+            <b>Tong sampah hijau:</b> Fungsinya adalah menampung sampah organik, seperti sisa plastik,
+            daun dan ranting.
+          </li>
+          <li>
+            <b>Tong sampah kuning:</b> Fungsinya adalah menampung sampah anorganik, seperti sisa plastik,
+            styrofom dan kaleng.
+          </li>
+          <li>
+            <b>Tong sampah merah:</b> Fungsinya adalah menampung limbah  B3(berbahayadanberacun)
+            Contoh:baterai,komponen elektronik,dan limba medis.
+          </li>
+        </ol>
+        <p className="mt-4 text-lg">
           Sebenarnya kalau sampah dikelola dengan benar, sampah bisa bermanfaat lho. Misalnya:
-          Sampah organik (daun, sisa makanan) bisa dijadikan kompos buat pupuk tanaman sekolah.
-          Sampah anorganik (plastik, botol, kertas) bisa dipilah, terus didaur ulang atau dijual.
         </p>
-        <p className="mb-4 text-lg">
+        <ul className="mt-4 list-disc ml-8 text-lg">
+          <li><b>Sampah organik</b> (daun, sisa makanan) bisa dijadikan kompos buat pupuk tanaman sekolah.</li>
+          <li><b>Sampah anorganik</b> (plastik, botol, kertas) bisa dipilah, terus didaur ulang atau dijual.</li>
+        </ul>
+        <p className="mt-4 text-lg">
           Intinya: Mengelola sampah bukan cuma bikin sekolah bersih, tapi juga melatih kita buat
           lebih peduli sama lingkungan. Jadi, daripada buang sampah sembarangan, mending kita
           kelola dengan cerdas dan kreatif.
@@ -199,17 +206,25 @@ export const stages: Stage[] = [{
     icon: <TreePineIcon className="w-6 h-6  text-green-600" />, // gunakan icon pohon
     content: (
       <div>
-        <p className="mb-4 text-lg">
+        <h2 className="text-xl md:text-2xl font-bold mb-4" >
           Kalian tau gak nih aspek ketiga dalam adiwiyata adalah penanaman pohon dan
-          pemeliharaan pohon atau tanaman di lingkungan sekolah kegiatan ini bermanfaat
-          bukan sekedar untuk membuat sekolah terlihat hijau, tapi juga menjaga kualitas
+          pemeliharaan pohon atau tanaman di lingkungan sekolah?
+        </h2>
+        <p className="mb-4 text-lg">
+          Kegiatan ini bermanfaat bukan sekedar untuk membuat sekolah terlihat hijau, tapi juga menjaga kualitas
           udara, mencegah banjir lewat resapan air, serta mengurangi populasi debu, jenis
           tanaman yang ditanam di lingkungan sekolah biasanya menyesuaikan kebutuhan dan
-          lahan di sekolah, contoh jenis tanaman yang ada di spensaged adalah tanaman pule
-          yang banyak terletak di sekeliling lapangan basket, tanaman pule ini ditanam
+          lahan di sekolah.
+        </p>
+        <p className="mb-4 text-lg">
+          Contoh jenis tanaman yang ada di spensaged adalah <b>tanaman pule </b>
+          yang banyak terletak di sekeliling lapangan basket. Tanaman pule ini ditanam
           bertujuan untuk menyerap polusi, mengingat di daerah kita sering macet yang
           mengakibatkan banyak kendaraan yang melepaskan karbon monoksida yang mencemari
-          udara. Jadi aspek ketiga mengajarkan pentingnya menanam dan merawat berbagai jenis
+          udara. 
+        </p>
+        <p className="mb-4 text-lg">
+          Jadi aspek ketiga mengajarkan pentingnya menanam dan merawat berbagai jenis
           tanaman di sekolah untuk manfaat bagi diri kita sendiri maupun lingkungan sekitar
           kita.
         </p>
@@ -254,8 +269,11 @@ export const stages: Stage[] = [{
     icon: <DropletsIcon className="w-6 h-6  text-green-600" />, // icon tetesan air
     content: (
       <div>
+        <h2 className="text-xl md:text-2xl font-bold mb-4" >
+          Gimana sih Konservasi Air itu?
+        </h2>
         <p className="mb-4 text-lg">
-          Adiwiyata aspek ke 4 adalah Konservasi Air pada dasarnya mengajarkan kita untuk
+          Konservasi Air pada dasarnya mengajarkan kita untuk
           lebih bijak dalam menggunakan air, karena air adalah sumber kehidupan yang tidak
           bisa tergantikan. Konservasi air adalah perilaku yang disengaja dengan tujuan
           mengurangi penggunaan air, melalui metode teknologi atau perilaku sosial.
@@ -313,8 +331,11 @@ export const stages: Stage[] = [{
     icon: <SunIcon className="w-6 h-6  text-green-600" />, // pakai icon matahari
     content: (
       <div>
+        <h2  className="text-xl md:text-2xl font-bold mb-4" >
+          Apakah kalian tahu? aspek kelima dalam adiwiyata adalah konservasi energi.
+        </h2>
         <p className="mb-4 text-lg">
-          Apakah kalian tahu? aspek kelima dalam adiwiyata adalah konservasi energi, yaitu
+          Konservasi energi yaitu
           bagaimana cara kita menggunakan energi dengan bijak supaya tidak boros.
         </p>
         <p className="mb-4 text-lg">
@@ -375,6 +396,9 @@ export const stages: Stage[] = [{
   icon: <LightbulbIcon className="w-6 h-6  text-green-600" />, // pakai icon ide/lampu
   content: (
     <div>
+      <h2 className="text-xl md:text-2xl font-bold mb-4" >
+        Gimana kita bisa ciptakan inovasi ramah lingkungan?
+      </h2>
       <p className="mb-4 text-lg">
         Pada aspek keenam dalam adiwiyata adalah inovasi ramah lingkungan, inovasi ramah
         lingkungan adalah segala jenis pengembangan produk, proses, atau model yang dirancang
