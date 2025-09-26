@@ -1,6 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { v4 as uuid4 } from 'uuid';
 
 interface User {
   id: string; // This will now be a locally generated unique ID
@@ -10,16 +11,20 @@ interface User {
   scores: number[];
   totalScore: number;
   isRegistered: boolean;
+  isCompleted: boolean; // NEW: Track if all stages are completed
 }
 
 interface UserContextType {
   user: User;
   register: (name: string, className: string) => void;
   updateScore: (stageId: number, score: number) => void;
-  advanceStage: () => Promise<void>; // This is now async and returns a Promise
+  advanceStage: () => Promise<void>;
   resetProgress: () => void;
-  isSaving: boolean; // NEW: Expose saving state
+  isSaving: boolean;
+  isAllStagesCompleted: boolean; // NEW: Expose completion status
 }
+
+const TOTAL_STAGES = 7; // Define total number of stages (0-6)
 
 const initialUser: User = {
   id: '',
@@ -28,7 +33,8 @@ const initialUser: User = {
   currentStage: 0,
   scores: [0, 0, 0, 0, 0, 0, 0], // Assuming 7 stages
   totalScore: 0,
-  isRegistered: false
+  isRegistered: false,
+  isCompleted: false
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -36,7 +42,13 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ children }) => {
   const [user, setUser] = useState<User>(initialUser);
   const [loading, setLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false); // NEW: State for saving
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Helper function to check if all stages are completed
+  // With 0-based indexing (stages 0-6), completion happens when currentStage reaches 7
+  const checkAllStagesCompleted = (currentStage: number): boolean => {
+    return currentStage >= TOTAL_STAGES; // currentStage 7 means completed all 7 stages (0-6)
+  };
 
   const saveUserToFirestore = async (userToSave: User) => {
     if (!userToSave.id) {
@@ -53,6 +65,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
         scores: userToSave.scores,
         totalScore: userToSave.totalScore,
         isRegistered: userToSave.isRegistered,
+        isCompleted: userToSave.isCompleted,
         lastUpdated: new Date(),
       };
       await setDoc(userRef, dataToSave, { merge: true });
@@ -68,7 +81,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
     const loadUser = async () => {
       let userId = localStorage.getItem('adiwiyataUserId');
       if (!userId) {
-        userId = crypto.randomUUID();
+        userId = uuid4();
         localStorage.setItem('adiwiyataUserId', userId);
       }
 
@@ -83,13 +96,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
             id: userId
           });
         } else {
+          // Just set the user with ID, don't save to Firestore yet
           const newUser = { ...initialUser, id: userId };
-          // We don't need to await here, as it's the initial save.
-          saveUserToFirestore(newUser);
           setUser(newUser);
         }
       } catch (error) {
-        console.error('Error loading or saving user data:', error);
+        console.error('Error loading user data:', error);
+        // Fallback to local user if Firestore fails
+        const newUser = { ...initialUser, id: userId };
+        setUser(newUser);
       } finally {
         setLoading(false);
       }
@@ -101,7 +116,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
     if (!user.id) return;
     const newUser: User = { ...user, name, className, isRegistered: true };
     setUser(newUser);
-    saveUserToFirestore(newUser);
+    // Don't save to Firestore here - only save locally
+    console.log('User registered locally. Will save to Firestore upon completion.');
   };
   
   const updateScore = (stageId: number, score: number) => {
@@ -114,35 +130,63 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
         scores: newScores,
         totalScore
       };
+      // Don't save to Firestore here - only update locally
       return updatedUser;
     });
   };
 
   const advanceStage = async () => {
     const prevUser = user;
-    if (prevUser.currentStage >= prevUser.scores.length - 1) {
-      console.warn('Cannot advance past the final stage.');
+    // Check if already BEYOND the final stage (stage 7+ in 0-based indexing means already completed)
+    if (prevUser.currentStage >= TOTAL_STAGES) {
+      console.warn('All stages already completed.');
       return;
     }
+    
+    const newStage = prevUser.currentStage + 1;
+    const isNowCompleted = checkAllStagesCompleted(newStage);
+    
     const updatedUser = {
       ...prevUser,
-      currentStage: prevUser.currentStage + 1
+      currentStage: newStage,
+      isCompleted: isNowCompleted
     };
+    
     setUser(updatedUser);
-    await saveUserToFirestore(updatedUser);
+    
+    // Only save to Firestore if all stages are now completed
+    // This happens when newStage becomes 7 (meaning completed stage 6)
+    if (isNowCompleted) {
+      console.log('All stages completed! Saving to Firestore...');
+      await saveUserToFirestore(updatedUser);
+    } else {
+      console.log(`Advanced to stage ${newStage}. Progress saved locally.`);
+    }
   };
 
   const resetProgress = () => {
-    setUser(initialUser);
+    const resetUser = { ...initialUser, id: user.id }; // Keep the same ID
+    setUser(resetUser);
     localStorage.removeItem('adiwiyataUserId');
-    saveUserToFirestore(initialUser);
+    // Don't save to Firestore when resetting - user starts fresh
+    console.log('Progress reset. Starting fresh locally.');
   };
+
+  const isAllStagesCompleted = checkAllStagesCompleted(user.currentStage);
 
   if (loading) {
       return <div>Loading user progress...</div>;
   }
 
-  return <UserContext.Provider value={{ user, register, updateScore, advanceStage, resetProgress, isSaving }}>
+  return <UserContext.Provider value={{ 
+    user, 
+    register, 
+    updateScore, 
+    advanceStage, 
+    resetProgress, 
+    isSaving,
+    isAllStagesCompleted 
+  }}>
       {children}
     </UserContext.Provider>;
 };

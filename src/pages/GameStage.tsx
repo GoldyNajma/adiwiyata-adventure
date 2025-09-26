@@ -63,9 +63,9 @@ const GameStage: React.FC = () => {
   };
 
   const handleNextStage = async () => {
+    await advanceStage();
+    
     if (currentStageId < stages.length - 1) {
-      // await the advanceStage function to ensure Firestore save is complete before navigating
-      await advanceStage();
       navigate(`/stage/${currentStageId + 1}`);
     } else {
       navigate('/leaderboard');
@@ -80,7 +80,6 @@ const GameStage: React.FC = () => {
   //   }
   // };
 
-  // NEW FUNCTION: Render the detailed results
   const renderQuizResults = () => {
     if (!quizResults) return null;
 
