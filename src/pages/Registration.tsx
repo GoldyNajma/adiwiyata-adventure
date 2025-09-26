@@ -7,7 +7,8 @@ const Registration: React.FC = () => {
   const [className, setClassName] = useState('');
   const [error, setError] = useState('');
   const {
-    register
+    register,
+    resetProgress,
   } = useUser();
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent) => {
@@ -20,6 +21,7 @@ const Registration: React.FC = () => {
       setError('Masukkan kelasmu terlebih dahulu');
       return;
     }
+    resetProgress();
     register(name, className);
     navigate('/stage/0');
   };

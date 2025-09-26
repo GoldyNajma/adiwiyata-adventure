@@ -16,6 +16,7 @@ const GameStage: React.FC = () => {
     user,
     updateScore,
     advanceStage,
+    resetProgress,
     isSaving // NEW: get isSaving state
   } = useUser();
   const navigate = useNavigate();
@@ -101,6 +102,10 @@ const GameStage: React.FC = () => {
                 <span className="font-semibold text-gray-800">
                   Pertanyaan {index + 1}: {result.isCorrect ? 'BENAR' : 'SALAH'}
                 </span>
+                {result.isCorrect 
+                  ? <span className="font-semibold text-green-800 ml-1">(+10)</span>
+                  : <span className="font-semibold text-red-800 ml-1">(0)</span>
+                }
               </div>
               <p className="text-sm font-medium text-gray-700">
                 <b>Pertanyaan:</b> {result.question}
@@ -130,7 +135,10 @@ const GameStage: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         {/* User Info and Total Score */}
         <div className="flex justify-between items-center mb-6">
-          <button onClick={() => navigate('/')} className="flex items-center text-green-700 hover:text-green-900">
+          <button onClick={() => {
+            resetProgress();
+            navigate('/');
+          }} className="flex items-center text-green-700 hover:text-green-900">
             <HomeIcon className="w-5 h-5 mr-1" />
             <span>Halaman Awal</span>
           </button>
@@ -203,8 +211,11 @@ const GameStage: React.FC = () => {
 
               {quizCompleted ? (
                   <div className="mt-6 text-center">
-                      <div className="text-2xl font-bold text-green-700 mb-4">
+                      <div className="text-2xl text-green-700">
                           Skormu untuk Stage ini: {currentStageScore}
+                      </div>
+                      <div className="text-2xl font-bold text-green-700 mb-4">
+                          Skor total sementara: {user.totalScore}
                       </div>
                       
                       {/* Render the detailed results */}

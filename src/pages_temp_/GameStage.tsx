@@ -168,14 +168,6 @@ const GameStage = () => {
       navigate('/leaderboard');
     }
   };
-  const handlePreviousStage = () => {
-    if (currentStageId > 0) {
-      navigate(`/stage/${currentStageId - 1}`);
-    } else {
-      navigate('/');
-    }
-  };
-
   const totalStages = stages.length;
   
   const handleAnswerSelect = (answerIndex: React.SetStateAction<number | null>) => {

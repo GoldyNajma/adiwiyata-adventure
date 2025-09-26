@@ -113,7 +113,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
   }, []);
 
   const register = (name: string, className: string) => {
-    if (!user.id) return;
+    if (!user.id) {
+      user.id = uuid4();
+    }
     const newUser: User = { ...user, name, className, isRegistered: true };
     setUser(newUser);
     // Don't save to Firestore here - only save locally
@@ -165,7 +167,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
   };
 
   const resetProgress = () => {
-    const resetUser = { ...initialUser, id: user.id }; // Keep the same ID
+    // const resetUser = { ...initialUser, id: user.id }; // Keep the same ID
+    const resetUser = { ...initialUser }; // Keep the same ID
     setUser(resetUser);
     localStorage.removeItem('adiwiyataUserId');
     // Don't save to Firestore when resetting - user starts fresh
@@ -175,7 +178,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode; }> = ({ childre
   const isAllStagesCompleted = checkAllStagesCompleted(user.currentStage);
 
   if (loading) {
-      return <div>Loading user progress...</div>;
+      return <div>Loading...</div>;
   }
 
   return <UserContext.Provider value={{ 

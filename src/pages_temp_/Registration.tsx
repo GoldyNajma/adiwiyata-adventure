@@ -111,7 +111,7 @@ const Registration = () => {
                   value={className}
                   onChange={(e) => setClassName(e.target.value.toUpperCase())}
                   className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 outline-none transition-all duration-300 text-lg"
-                  placeholder="Contoh: 7A, 8B, 9C"
+                  placeholder="Masukkan kelas saat ini"
                   maxLength={10}
                 />
                 <div className="absolute right-3 top-12">

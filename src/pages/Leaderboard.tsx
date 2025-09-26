@@ -272,7 +272,10 @@ const Leaderboard: React.FC = () => {
     <div className="min-h-screen bg-green-50 py-8 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <button onClick={() => navigate('/')} className="flex items-center text-green-700 hover:text-green-900">
+          <button onClick={() => {
+            resetProgress();
+            navigate('/');
+          }} className="flex items-center text-green-700 hover:text-green-900">
             <HomeIcon className="w-5 h-5 mr-1" />
             <span>Halaman Awal</span>
           </button>
@@ -341,7 +344,7 @@ const Leaderboard: React.FC = () => {
                   <button 
                     onClick={() => setShowExportMenu(!showExportMenu)}
                     disabled={isExporting}
-                    className="flex items-center bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+                    className="flex items-center bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-300"
                   >
                     <DownloadIcon className="w-4 h-4 mr-2" />
                     {isExporting ? 'Mengekspor...' : 'Ekspor'}
