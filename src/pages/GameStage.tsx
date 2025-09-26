@@ -197,9 +197,10 @@ const GameStage: React.FC = () => {
 
             {/* Quiz section */}
             <div className="mt-8 pt-8 border-t border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
                 Kuis: {stage.title}
               </h2>
+              <p className="mb-4">Petunjuk: kerjakan soal ini sesuai yang sudah kalian baca !!</p>
 
               {quizCompleted ? (
                   <div className="mt-6 text-center">

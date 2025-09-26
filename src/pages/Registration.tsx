@@ -13,11 +13,11 @@ const Registration: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError('Please enter your name');
+      setError('Masukkan namamu terlebih dahulu');
       return;
     }
     if (!className.trim()) {
-      setError('Please enter your class');
+      setError('Masukkan kelasmu terlebih dahulu');
       return;
     }
     register(name, className);
