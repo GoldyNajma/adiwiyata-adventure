@@ -7,7 +7,7 @@ import Leaderboard from './pages/Leaderboard';
 import ProtectedRoute from './components/ProtectedRoute';
 export function App() {
   return <UserProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/adiwiyata-adventure">
         <div className="bg-top bg-gradient-to-b from-green-50 to-green-100 min-h-screen w-full">
           <Routes>
             <Route path="/" element={<Welcome />} />
