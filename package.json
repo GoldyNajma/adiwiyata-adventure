@@ -9,8 +9,8 @@
     "build": "npx vite build && cp dist/index.html dist/404.html",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "preview": "npx vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "npm run build && rm -rf adiwiyata-adventure && mv dist adiwiyata-adventure",
+    "deploy": "gh-pages -d adiwiyata-adventure"
   },
   "dependencies": {
     "firebase": "^12.3.0",

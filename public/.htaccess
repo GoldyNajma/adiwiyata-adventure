@@ -1,0 +1,13 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Make sure the .htaccess works in the current folder
+RewriteBase /adiwiyata-adventure/
+
+# Don’t rewrite requests for real files or directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirect everything else to index.html
+RewriteRule . /adiwiyata-adventure/index.html [L]
