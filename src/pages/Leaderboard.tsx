@@ -33,8 +33,7 @@ const Leaderboard: React.FC = () => {
         const fetchedLeaderboard: LeaderboardEntry[] = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          // Only include registered users who have completed at least one stage (totalScore > 0)
-          if (data.isRegistered && data.totalScore > 0) {
+          if (data.isRegistered) {
             fetchedLeaderboard.push({
               name: data.name,
               className: data.className,
