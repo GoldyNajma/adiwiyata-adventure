@@ -67,6 +67,27 @@ export const stages: Stage[] = [{
         ],
         correctAnswer: 0,
       },
+      {
+        id: 4,
+        text: "Berdasarkan bacaan, tujuan utama program Adiwiyata bukan hanya menjaga kebersihan, tetapi juga membentuk karakter warga sekolah. Berdasarkan hal itu, nilai karakter apa yang paling ditekankan oleh program Adiwiyata?",
+        options: [
+          "Kompetitif dan mandiri",
+          "Peduli dan bertanggung jawab",
+          "Kreatif dan inovatif",
+          "Disiplin dan religious",
+        ],
+        correctAnswer: 1,
+      },
+      {
+        id: 5,
+        text: "Dalam teks disebutkan bahwa “Spensaged memenangkan lomba PJAS aman tigkat nasional.” Berdasarkan informasi tersebut, apa makna penting penghargaan PJAS badi keberlanjutan program Adiwiyata di sekolah?",
+        options: [
+          "Bukti bahwa sekolah unggul dalam bidang akademik",
+          "Bentuk keberhasilan dalam menerapkan lingkungan sehat dan aman bagi siswa",
+          "Upaya memperbanyak jenis jajanan di kantin sekolah",
+        ],
+        correctAnswer: 1,
+      },
     ],
   },
   {
@@ -122,6 +143,26 @@ export const stages: Stage[] = [{
           "Kepedulian terhadap Kesehatan",
         ],
         correctAnswer: 1,
+      },
+      {
+        id: 4,
+        text: "Fungsi sanitasi dijelaskan sebagai upaya mencegah penyakit dan menjaga kesehatan masyarakat melalui pengelolaan lingkungan. Berdasarkan pengertian tersebut, jika drainase sekolah tersumbat, maka dampak tidak langsung yang mungkin terjadi adalah...",
+        options: [
+          "Berkurangnya pasokan air bersih ",
+          "Meningkatnya risiko penyakit akibat genangan air",
+          "Bertambahnya sampah di taman sekolah ",
+        ],
+        correctAnswer: 1,
+      },
+      {
+        id: 5,
+        text: "Dalam konteks enam aspek Adiwiyata, kegiatan seperti pemilahan sampah dan pembuatan kompos termasuk ke dalam aspek?",
+        options: [
+          "Konservasi air",
+          "Inovasi lingkungan ",
+          "Pengelolaan sampah berkelajutan",
+        ],
+        correctAnswer: 2,
       },
     ],
   },
@@ -198,6 +239,26 @@ export const stages: Stage[] = [{
         ],
         correctAnswer: 2,
       },
+      {
+        id: 4,
+        text: "Jika suatu sekolah hanya fokus pada penghijauan tanpa memperhatikan pengelolaan limbah cair, maka sekolah tersebut?",
+        options: [
+          "Tetap bisa disebut sekolah adiwiyata karena menanam pohon",
+          "Belum memenuhi seluruh aspek Adiwiyata",
+          "Sudah melaksanakan semua prinsip adiwiyata",
+        ],
+        correctAnswer: 1,
+      },
+      {
+        id: 5,
+        text: "Bacaan menjelaskan bahwa Adiwiyata menumbuhkan kecintaan terhadap lingkungan hidup. Dalam konteks pendidikan abad ke-21, kecintaan terhadap lingkungan tersebut dapat dikaitkan dengan?",
+        options: [
+          "Kecakapan berpikir kritis dan kolaboratif",
+          "Kecakapan berwirausaha dan finansial",
+          "Penguasaan teknologi informasi",
+        ],
+        correctAnswer: 0,
+      },
     ],
   },
   {
@@ -260,6 +321,26 @@ export const stages: Stage[] = [{
           "Tanaman tetap memberi oksigen meskipun tidak dirawat",
         ],
         correctAnswer: 1,
+      },
+      {
+        id: 4,
+        text: "Berdasarkan prinsip Adiwiyata, jika sekolah ingin meningkatkan kesadaran siswa terhadap kebersihan masjid sekolah, langkah paling efektif adalah?",
+        options: [
+          "Memberikan sanksi pada siswa yang melanggar",
+          "Mengadakan lomba kebersihan tempat ibadah antar kelas",
+          "Menambah petugas kebersihan khusus masjid",
+        ],
+        correctAnswer: 1,
+      },
+      {
+        id: 5,
+        text: "Salah satu ciri sekolah Adiwiyata adalah adanya partisipasi aktif seluruh warga sekolah. Dari opsi berikut, mana yang menunjukan partisipasi aktif warga sekolah?",
+        options: [
+          "Guru saja yang bertanggung jawab terhadap kebersihan",
+          "Siswa hanya ikut bersih-bersih saat lomba datang",
+          "Semua pihak secara rutig menjaga dan memantau kebersihan lingkungan",
+        ],
+        correctAnswer: 2,
       },
     ],
   },
